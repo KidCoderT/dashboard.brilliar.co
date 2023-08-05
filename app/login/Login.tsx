@@ -33,7 +33,7 @@ const Login = ({ isLoginPage }: { isLoginPage: boolean }) => {
                     theme="dark"
                     showLinks={true}
                     providers={[]}
-                    redirectTo="/auth/callback"
+                    redirectTo={`http://${process.env["NEXT_PUBLIC_URL"]}/auth/callback`}
                     socialLayout="horizontal"
                 />
             </div>
