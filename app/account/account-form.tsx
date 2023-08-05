@@ -6,6 +6,7 @@ import {
     createClientComponentClient,
 } from "@supabase/auth-helpers-nextjs";
 import Link from "next/link";
+import SignOut from "../SignOut";
 
 export default function AccountForm({ session }: { session: Session | null }) {
     const supabase = createClientComponentClient<Database>();
@@ -124,11 +125,7 @@ export default function AccountForm({ session }: { session: Session | null }) {
                     </div>
                 </div>
                 <div>
-                    <form action="/auth/signout" method="post">
-                        <button className="button block" type="submit">
-                            Sign out
-                        </button>
-                    </form>
+                    <SignOut session={session} />
 
                     <Link href={"/dashboard"} className="">
                         Dashboard
