@@ -1,7 +1,7 @@
 export const dynamic = "force-dynamic";
-import "./globals.css";
 import type { Metadata } from "next";
 import { Lexend } from "next/font/google";
+import "./globals.css";
 
 const inter = Lexend({ subsets: ["latin"] });
 

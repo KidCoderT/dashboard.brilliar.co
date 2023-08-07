@@ -11,26 +11,20 @@ export interface Database {
     Tables: {
       comment: {
         Row: {
-          end_time: string | null
           id: string
-          solved: boolean | null
-          start_time: string | null
+          solved: boolean
           text: string | null
           video_id: string
         }
         Insert: {
-          end_time?: string | null
           id?: string
-          solved?: boolean | null
-          start_time?: string | null
+          solved?: boolean
           text?: string | null
           video_id: string
         }
         Update: {
-          end_time?: string | null
           id?: string
-          solved?: boolean | null
-          start_time?: string | null
+          solved?: boolean
           text?: string | null
           video_id?: string
         }
@@ -73,28 +67,46 @@ export interface Database {
       }
       video: {
         Row: {
-          done: boolean | null
-          finished_videos: string[] | null
+          created_on: string | null
+          done: boolean
+          finished_videos: string[]
           id: string
-          og_link: string | null
-          status: string | null
+          og_link: string
+          status: Database["public"]["Enums"]["status_enum"]
+          style: string
+          updated_at: string | null
           user_id: string
+          vid1: string
+          vid2: string | null
+          vid3: string | null
         }
         Insert: {
-          done?: boolean | null
-          finished_videos?: string[] | null
+          created_on?: string | null
+          done?: boolean
+          finished_videos?: string[]
           id?: string
-          og_link?: string | null
-          status?: string | null
+          og_link: string
+          status?: Database["public"]["Enums"]["status_enum"]
+          style: string
+          updated_at?: string | null
           user_id: string
+          vid1: string
+          vid2?: string | null
+          vid3?: string | null
         }
         Update: {
-          done?: boolean | null
-          finished_videos?: string[] | null
+          created_on?: string | null
+          done?: boolean
+          finished_videos?: string[]
           id?: string
-          og_link?: string | null
-          status?: string | null
+          og_link?: string
+          status?: Database["public"]["Enums"]["status_enum"]
+          style?: string
+          updated_at?: string | null
           user_id?: string
+          vid1?: string
+          vid2?: string | null
+          vid3?: string | null
         }
         Relationships: [
           {
@@ -113,7 +125,7 @@ export interface Database {
       [_ in never]: never
     }
     Enums: {
-      [_ in never]: never
+      status_enum: "trimming" | "editing" | "to_review"
     }
     CompositeTypes: {
       [_ in never]: never
