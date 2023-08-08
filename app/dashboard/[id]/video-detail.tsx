@@ -30,9 +30,19 @@ const VidDetailsPage = ({
         setIsModalOpen(false);
     };
 
-    function getEmbeddedLink(link: string): string {
-        const parsedLink = link.split("/").reverse()[0].split("=").reverse()[0];
-        return `https://www.youtube.com/embed/${parsedLink}`;
+    function validateYouTubeUrl(url: string) {
+        if (url != undefined || url != "") {
+            var regExp =
+                /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=|\?v=)([^#\&\?]*).*/;
+            var match = url.match(regExp);
+            if (match && match[2].length == 11) {
+                // Do anything for being valid
+                // if need to change the url to embed url then use below line
+                return "https://www.youtube.com/embed/" + match[2];
+            }
+        }
+
+        throw new Error("YT Link Invalid");
     }
 
     useEffect(() => {
@@ -86,7 +96,7 @@ const VidDetailsPage = ({
             )}
             <div className="w-full relative">
                 <iframe
-                    src={getEmbeddedLink(video.og_link)}
+                    src={validateYouTubeUrl(video.og_link)}
                     title="YouTube video player"
                     allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                     className="h-full w-full"
@@ -161,7 +171,7 @@ const VidDetailsPage = ({
                         <>
                             <div className="flex flex-col p-3 rounded-md bg-slate-900 items-center justify-between">
                                 <iframe
-                                    src={getEmbeddedLink(
+                                    src={validateYouTubeUrl(
                                         video.finished_videos[
                                             video.finished_videos.length - 1
                                         ]

@@ -2,18 +2,6 @@
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 
-interface YouTubeLink {
-    type: "youtube";
-    link: string;
-}
-
-interface InvalidLink {
-    type: "invalid";
-    link: string;
-}
-
-type ParsedLink = YouTubeLink | InvalidLink;
-
 const EditVideoModal = ({ onClose, func }: { onClose: any; func: any }) => {
     let [ogLink, setOgLink] = useState("");
     let [comment, setComment] = useState("");
@@ -22,40 +10,17 @@ const EditVideoModal = ({ onClose, func }: { onClose: any; func: any }) => {
     let [vid3, setVid3] = useState("");
     let router = useRouter();
 
-    function checkYouTubeVideoLink(videoUrl: string) {
-        return new Promise((resolve, reject) => {
-            const xhr = new XMLHttpRequest();
-
-            xhr.open("GET", videoUrl);
-            xhr.onreadystatechange = function () {
-                if (xhr.readyState === 4) {
-                    if (xhr.status === 200) {
-                        // Video link is valid
-                        resolve(true);
-                    } else {
-                        // Video link is invalid
-                        resolve(false);
-                    }
-                }
-            };
-            xhr.onerror = function () {
-                reject(new Error("Error checking YouTube video link"));
-            };
-
-            xhr.send();
-        });
-    }
-
-    function getEmbeddedLink(link: string): string {
-        const parsedLink = link.split("/").reverse()[0].split("=").reverse()[0];
-
-        checkYouTubeVideoLink(link).then((isValid) => {
-            if (isValid) {
-                return `https://www.youtube.com/embed/${parsedLink}`;
-            } else {
-                return "";
+    function getEmbeddedLink(url: string) {
+        if (url != undefined || url != "") {
+            var regExp =
+                /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=|\?v=)([^#\&\?]*).*/;
+            var match = url.match(regExp);
+            if (match && match[2].length == 11) {
+                // Do anything for being valid
+                // if need to change the url to embed url then use below line
+                return "https://www.youtube.com/embed/" + match[2];
             }
-        });
+        }
 
         return "";
     }

@@ -14,8 +14,10 @@ const Login = ({ isLoginPage }: { isLoginPage: boolean }) => {
         const {
             data: { subscription },
         } = supabase.auth.onAuthStateChange((state, _) => {
-            if (state === "SIGNED_IN" || state === "SIGNED_OUT")
+            if (state === "SIGNED_IN" || state === "SIGNED_OUT") {
                 router.push("/");
+                router.refresh();
+            }
         });
 
         return () => {
