@@ -35,7 +35,7 @@ const Video = ({
     return !done ? (
         <div
             className="w-full p-4 bg-slate-900 hover:bg-slate-800 rounded-md flex justify-between"
-            onClick={() => redirect(`/dashboard/${vidId}`)}
+            onClick={() => router.push(`/dashboard/${vidId}`)}
         >
             <span className="hidden bg-orange-500"></span>
             <span className="hidden bg-green-500"></span>
