@@ -30,33 +30,9 @@ const VidDetailsPage = ({
         setIsModalOpen(false);
     };
 
-    function parseYouTubeLink(link: string) {
-        const regex =
-            /(?:https?:\/\/)?(?:www\.)?youtube\.com\/watch\?v=([^&]+)/i;
-        const match = link.match(regex);
-
-        if (match) {
-            const videoId = match[1];
-            return {
-                type: "youtube",
-                link: videoId,
-            };
-        }
-
-        // Return the original link if it doesn't match the expected format
-        return {
-            type: "invalid",
-            link: link,
-        };
-    }
-
     function getEmbeddedLink(link: string): string {
-        const parsedLink = parseYouTubeLink(link);
-        if (parsedLink.type === "youtube") {
-            return `https://www.youtube.com/embed/${parsedLink.link}`;
-        } else {
-            return ""; // Return an empty string for invalid links
-        }
+        const parsedLink = link.split("/").reverse()[0].split("=").reverse()[0];
+        return `https://www.youtube.com/embed/${parsedLink}`;
     }
 
     useEffect(() => {
@@ -110,9 +86,7 @@ const VidDetailsPage = ({
             )}
             <div className="w-full relative">
                 <iframe
-                    src={getEmbeddedLink(
-                        video.finished_videos[video.finished_videos.length - 1]
-                    )}
+                    src={getEmbeddedLink(video.og_link)}
                     title="YouTube video player"
                     allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                     className="h-full w-full"

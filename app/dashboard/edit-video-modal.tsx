@@ -22,33 +22,42 @@ const EditVideoModal = ({ onClose, func }: { onClose: any; func: any }) => {
     let [vid3, setVid3] = useState("");
     let router = useRouter();
 
-    function parseYouTubeLink(link: string): ParsedLink {
-        const regex =
-            /(?:https?:\/\/)?(?:www\.)?youtube\.com\/watch\?v=([^&]+)/i;
-        const match = link.match(regex);
+    function checkYouTubeVideoLink(videoUrl: string) {
+        return new Promise((resolve, reject) => {
+            const xhr = new XMLHttpRequest();
 
-        if (match) {
-            const videoId = match[1];
-            return {
-                type: "youtube",
-                link: videoId,
+            xhr.open("GET", videoUrl);
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4) {
+                    if (xhr.status === 200) {
+                        // Video link is valid
+                        resolve(true);
+                    } else {
+                        // Video link is invalid
+                        resolve(false);
+                    }
+                }
             };
-        }
+            xhr.onerror = function () {
+                reject(new Error("Error checking YouTube video link"));
+            };
 
-        // Return the original link if it doesn't match the expected format
-        return {
-            type: "invalid",
-            link: link,
-        };
+            xhr.send();
+        });
     }
 
     function getEmbeddedLink(link: string): string {
-        const parsedLink = parseYouTubeLink(link);
-        if (parsedLink.type === "youtube") {
-            return `https://www.youtube.com/embed/${parsedLink.link}`;
-        } else {
-            return ""; // Return an empty string for invalid links
-        }
+        const parsedLink = link.split("/").reverse()[0].split("=").reverse()[0];
+
+        checkYouTubeVideoLink(link).then((isValid) => {
+            if (isValid) {
+                return `https://www.youtube.com/embed/${parsedLink}`;
+            } else {
+                return "";
+            }
+        });
+
+        return "";
     }
 
     const formAction = async (formData: FormData) => {
@@ -96,7 +105,7 @@ const EditVideoModal = ({ onClose, func }: { onClose: any; func: any }) => {
                     />
                 </div>
 
-                {parseYouTubeLink(ogLink).type === "youtube" ? (
+                {getEmbeddedLink(ogLink) !== "" ? (
                     <iframe
                         src={getEmbeddedLink(ogLink)}
                         title="YouTube video player"
