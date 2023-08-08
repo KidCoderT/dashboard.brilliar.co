@@ -21,8 +21,8 @@ export default async function Home() {
             </div>
 
             <div className="text-center">
+                <h1 className="mb-3 text-3xl">Get Started</h1>
                 <Links session={session} />
-                <SignOut session={session} />
             </div>
         </main>
     );

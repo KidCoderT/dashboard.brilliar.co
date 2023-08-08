@@ -124,10 +124,13 @@ export default function AccountForm({ session }: { session: Session | null }) {
                         </button>
                     </div>
                 </div>
-                <div>
+                <div className="flex gap-2">
                     <SignOut session={session} />
 
-                    <Link href={"/dashboard"} className="">
+                    <Link
+                        href={"/dashboard"}
+                        className="text-white bg-gray-900 hover:bg-gray-950 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium text-lg rounded-lg px-5 py-2.5 mr-5 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700    "
+                    >
                         Dashboard
                     </Link>
                 </div>
