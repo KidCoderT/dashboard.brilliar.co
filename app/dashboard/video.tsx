@@ -45,7 +45,7 @@ const Video = ({
                 className="italic hover:underline hover:decoration-double"
                 target="_blank"
             >
-                {video.split("=")[1]}
+                {video}
             </a>
 
             <span>
